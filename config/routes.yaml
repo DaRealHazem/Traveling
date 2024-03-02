@@ -1,3 +1,57 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+# config/routes.yaml
+app_spot:
+    path: /spot
+    controller: App\Controller\SpotController::home
+# config/routes.yaml
+spot_list:
+    path: /
+    controller: 'App\Controller\SpotController::home'
+    methods: ['GET']
+
+new_spot:
+    path: /spot/new
+    controller: 'App\Controller\SpotController::new'
+    methods: ['GET', 'POST']
+
+# Add other routes as needed
+spot_show:
+    path: '/spot/{id}'
+    controller: 'App\Controller\frontController::show'
+    requirements:
+        id: '\d+'
+
+# routes.yaml
+new_avis:
+    path: '/avis/new/{spotId}'
+    controller: 'App\Controller\AvisController::new'
+    methods: ['GET', 'POST']
+avis_list:
+    path: /avis
+    controller: 'App\Controller\AvisController::index'
+    methods: ['GET']
+app_front:
+    path: /front
+    controller: 'App\Controller\frontController::index'
+    methods: ['GET']
+# config/routes.yaml
+spot_detail:
+    path: '/spot/{id}/detail'
+    controller: 'App\Controller\frontController::spotDetail'
+    requirements:
+        id: '\d+'
+edit_spot:
+    path: '/spot/edit/{id}'
+    controller: 'App\Controller\SpotController::edit'
+    methods: ['GET', 'POST']
+
+# routes.yaml
+delete_spot:
+    path: '/spot/delete/{id}'
+    controller: 'App\Controller\SpotController::delete'
+    methods: ['GET', 'POST']
+
+

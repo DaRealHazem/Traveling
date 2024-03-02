@@ -1,5 +1,9 @@
 {% extends "Backend/IndexBack.html.twig" %}
 
+
+{#
+    inherits metadata, sidebar unchanged and top bar navigation, javascript stuff
+#}
 {% block sidebar %}
 <body class="nav-md">
 	<div class="container body">
@@ -15,11 +19,15 @@
 					<!-- menu profile quick info -->
 					<div class="profile clearfix">
 						<div class="profile_pic">
-							<img src="{{asset('Backend/images/picture.jpg')}}" alt="" >
+							<img src="{{asset('admin/images/img.jpg')}}" alt="..." class="img-circle profile_img">
 						</div>
+							{% if app.user %}
 						<div class="profile_info">
 							<span>Welcome,</span>
-							<h2>Syrine Majdoub</h2>
+							<h2>{{ app.user.userIdentifier }}</h2>
+						</div>
+	
+						{% endif %}
 						</div>
 					</div>
 					<!-- /menu profile quick info -->
@@ -40,23 +48,19 @@
 								</li>
 								<li><a><i class="fa fa-edit"></i> Formulaires <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										
-										<li><a href="{{ path('addevent')}}">Formulaire Evenements</a></li>
-                                        
-                                        <li><a href="form_validation.html">Formulaire Voyage</a></li>
-										<li><a href="form_validation.html">Formulaire Activités</a></li>
-                                        <li><a href="form_validation.html">Formulaire Destinations</a></li>
+										<li><a href="{{ path('add-voyage')}}">Formulaire Voyage</a></li>
+										<li><a href="{{ path('add-activite')}}">Formulaire Activités</a></li>
+										 <li><a href="{{ path('addevent')}}">Table des Evenements</a></li>
+                                        <li><a href="{{ path('new_spot')}}">Formulaire Spot</a></li>
                                         <li><a href="form_validation.html">Formulaire Blogs</a></li>
 									</ul>
 								</li>
 								<li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										
-                                        <li><a href="{{ path('list-event')}}">Table des Evenements</a></li>
-                                        <li><a href="{{ path('list-reservation')}}">Table des Reservations</a></li>
-                                        <li><a href="form_validation.html">Table des Voyages</a></li>
-										<li><a href="form_validation.html">Table des Activités</a></li>
-                                        <li><a href="form_validation.html">Table des Destinations</a></li>
+										<li><a href="{{ path('list-voyage')}}">Table des Voyages</a></li>
+										<li><a href="{{ path('list-activite')}}">Table des Activités</a></li>
+                                        <li><a href="form_validation.html">Table des Evenements</a></li>
+                                        <li><a href="{{ path('spot_list')}}">Table des Spots</a></li>
                                         <li><a href="form_validation.html">Table des Blogs</a></li>
 									</ul>
 								</li>
@@ -387,6 +391,6 @@
     </div>
 </div>
 </div>
- 
+
 {% endblock %}
 
