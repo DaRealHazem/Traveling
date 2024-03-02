@@ -48,7 +48,7 @@ class Voyage
     #[Assert\NotBlank(message:"Veuillez inserer une image !")]
     private ?string $image1 = null;
 
-    #[ORM\OneToMany(mappedBy: 'voyage', targetEntity: Activite::class)]
+    #[ORM\OneToMany(mappedBy: 'voyage', targetEntity: Activite::class, orphanRemoval:true)]
     private Collection $activites;
 
     /**

@@ -8,6 +8,36 @@
             height: 220px; /* Adjust the height as needed */
             object-fit: cover; /* Maintain aspect ratio and cover entire container */
         }
+        
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pagination span {
+        margin: 0 5px;
+        font-size: 1.4rem;
+    }
+
+    .pagination a {
+        text-decoration: none;
+        color: var(--primary);
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    .pagination a:hover {
+        background-color: var(--greyLight);
+    }
+
+    .pagination .current {
+        background-color: var(--primary);
+        color: #fff;
+        padding: 0.5rem;
+        border-radius: 4px;
+    }
     </style>
     <div class="container-fluid py-5">
         <div class="container pt-5 pb-3">
@@ -17,7 +47,7 @@
             </div>
             {#-----------------ONE ELEMENT-------------------#}
             <div class="row">
-                {% for unit in voyages %}
+                {% for unit in pagination %}
                     <div class="col-lg-4 col-md-6 mb-4">
                     <div class="package-item bg-white mb-2">
                         <img class="img-cadre" src="{{ asset('images/' ~ unit.image1) }}" alt="">
@@ -38,7 +68,9 @@
                     </div>
                 </div>
                 {% endfor %}
-                
+                <div class="pagination"> <!-- Add pagination class here -->
+                     {{knp_pagination_render(pagination)}}
+                </div>
             {#-----------------ONE ELEMENT-------------------#}
             </div>
         </div>

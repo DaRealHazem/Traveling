@@ -76,23 +76,10 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">Spots</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Trips</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="property-list.html" class="dropdown-item">Spots</a>
-                                <a href="property-type.html" class="dropdown-item">Events</a>
-                                <a href="property-agent.html" class="dropdown-item">Trips</a>
-                                <a href="property-agent.html" class="dropdown-item">Blog</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Blogs</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Error</a>
-                            </div>
-                        </div>
+                        <a href="{{ path('app_front')}}" class="nav-item nav-link">Spots</a>
+                        <a href="{{ path('list-voyage-front')}}" class="nav-item nav-link">Voyages</a>
+                        <a href="about.html" class="nav-item nav-link">Evenements</a>
+                        <a href="about.html" class="nav-item nav-link">Blogs</a>
                     </div>
                     <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Sign in</a>
                 </div>

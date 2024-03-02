@@ -20,6 +20,20 @@ class VoyageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Voyage::class);
     }
+    public function paginationQuery()
+    {
+        return $this->createQueryBuilder('v')
+           ->orderBy('v.id', 'ASC')
+           ->getQuery()
+       ;
+    }
+    public function findByQuery($query){
+        return $this->createQueryBuilder('v')
+        ->andWhere('v.nom LIKE :query OR v.destination LIKE :query')
+        ->setParameter('query', '%'.$query.'%')
+        ->getQuery()
+        ->getResult();
+    }
 
 //    /**
 //     * @return Voyage[] Returns an array of Voyage objects

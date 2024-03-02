@@ -6,6 +6,7 @@ use App\Entity\Voyage;
 use App\Form\VoyageType;
 use App\Repository\VoyageRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -119,14 +120,19 @@ class VoyageController extends AbstractController
         */
         return $this->render('voyage/list.html.twig',['voyages'=>$list_voyages]);
     }
+
     #[Route('/list-voyage-front', name:'list-voyage-front')]
-    public function list_voyage_front(VoyageRepository $repo){
-        $list_voyages=$repo->findAll();
-        /*
-        changing function in the repository would allow for specialized ways of sorting
-        in cas you want to devide the trips in 2 types
-        */
-        return $this->render('front/listVoyages.html.twig',['voyages'=>$list_voyages]);
+    public function list_voyage_front(VoyageRepository $repo, Request $request, PaginatorInterface $paginator){
+        //$list_voyages=$repo->findAll();
+        $pagination  = $paginator->paginate(
+                $repo -> paginationQuery(),
+                $request->query->get('page',1),
+                6
+        );
+        return $this->render('front/listVoyages.html.twig',[
+            //'voyages'=>$list_voyages
+            'pagination' => $pagination
+        ]);
     }
 
     #[Route('/voyage-details/{id}', name:'voyage-details')]
@@ -146,6 +152,22 @@ class VoyageController extends AbstractController
 
         return $this->render('front/singlePageVoyage.html.twig',['voyage'=>$voyage]);
     }
+
+    #[Route('/search-voyage', name:'search-voyage')]
+    public function search(Request $request, VoyageRepository $repo)
+{
+    $query = $request->query->get('query');
+
+    // Perform your search logic, for example using Doctrine or any other method
+
+    // Assuming you have some function to get voyages based on the query
+    $voyages = $repo ->findByQuery($query);
+
+    return $this->render('voyage/listSearch.html.twig', [
+        'voyages' => $voyages,
+        'query' => $query,
+    ]);
+}
 
     
     
