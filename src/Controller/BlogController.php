@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Knp\Component\Pager\PaginatorInterface;
 
 class BlogController extends AbstractController
 {
@@ -61,7 +62,7 @@ class BlogController extends AbstractController
             
             $entityManager->persist($blog);
             $entityManager->flush();
-            return $this->redirectToRoute('list-blog');
+            return $this->redirectToRoute('alist-blog');
         }
          
         return $this->render('blog/addBlog.html.twig', [
@@ -90,7 +91,7 @@ class BlogController extends AbstractController
         $entityManager->flush();
 
         // Rediriger vers la liste des articles de blog ou une autre page appropriée
-        return $this->redirectToRoute('list-blog');
+        return $this->redirectToRoute('alist-blog');
     }
     #[Route('/edit-blog/{id}', name: 'edit-blog')]
     public function editBlog(Request $request, int $id): Response
@@ -124,7 +125,7 @@ class BlogController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la liste des articles de blog ou une autre page appropriée
-            return $this->redirectToRoute('list-blog');
+            return $this->redirectToRoute('alist-blog');
         }
 
         // Rendre le template du formulaire d'édition avec le formulaire
@@ -133,11 +134,24 @@ class BlogController extends AbstractController
         ]);
     }
     #[Route('/alist-blog', name:'alist-blog')]
-    public function alist_blog(BlogRepository $repo){
-        $list_blogs=$repo->findAll();
-      
+    public function alist_blog(Request $request,BlogRepository $blogRepository , PaginatorInterface $paginator): Response
+    {
+      //  $list_blogs=$repo->findAll();
+      // Récupérer tous les blogs depuis le repository
+    $query = $blogRepository->createQueryBuilder('b')->getQuery();
+
+    // Paginer les résultats
+    $blogs = $paginator->paginate(
+        $query, // Requête à paginer
+        $request->query->getInt('page', 1), // Numéro de page
+        6 // Nombre d'éléments par page
+    );
+    // Passer les résultats paginés à la vue
+    return $this->render('blog/aff.html.twig', [
+        'blogs' => $blogs,
+    ]);
     
-        return $this->render('blog/aff.html.twig',['blogs'=>$list_blogs]);
+       // return $this->render('blog/aff.html.twig',['blogs'=>blogs,]);
     }
     #[Route('/blog-details/{id}', name: 'blog_details')]
     public function details(int $id, BlogRepository $blogRepository): Response
@@ -205,4 +219,33 @@ return $this->render('blog/aff.html.twig', [
         
         return new JsonResponse($formattedResults);
     } 
+    #[Route('/toggle-favorite/{id}', name: 'toggle_favorite')]
+    public function toggleFavorite(Blog $blog, EntityManagerInterface $entityManager): Response
+    {
+       
+
+        // Vérifier si le blog est déjà marqué comme favori par l'utilisateur
+        $isFavorite = $blog->isFavoris();
+
+        // Inverser l'état de favori
+        $blog->setFavoris(!$isFavorite);
+
+        // Enregistrer les changements dans la base de données
+        $entityManager->flush();
+
+        // Rediriger l'utilisateur vers la page précédente ou vers une autre page
+        return $this->redirectToRoute('blog_details', ['id' => $blog->getId()]);
+    }
+    #[Route('/favorite-blogs', name: 'favorite_blogs')]
+public function favoriteBlogs(): Response
+{
+    // Récupérer les blogs favoris depuis le repository
+    $favoriteBlogs = $this->getDoctrine()->getRepository(Blog::class)->findBy(['favoris' => true]);
+
+    // Rendre la vue Twig en passant les blogs favoris comme paramètre
+    return $this->render('favorite_blogs/index.html.twig', [
+        'favoriteBlogs' => $favoriteBlogs,
+    ]);
+}
+
 }

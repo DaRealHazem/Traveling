@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ blog.Titre() }}</h1>
+    <img src="{{ asset('uploads/images/' ~ blog.getImageb()) }}" alt="Image du blog">
+     {% if blog.Favoris() %}
+    <a href="{{ path('toggle_favorite', {'id': blog.getId()}) }}">Retirer des favoris</a>
+{% else %}
+    <a href="{{ path('toggle_favorite', {'id': blog.getId()}) }}">Ajouter aux favoris</a>
+{% endif %}
+ <a href="{{ path('edit-blog', {'id': blog.id}) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                
+<a href="{{ path('delete-blog', {'id': blog.id}) }}" class="btn btn-danger" onclick="return confirmDelete()">Supprimer</a>
+    <p>{{ blog.Content() }}</p>
+<script>
+function confirmDelete() {
+    return confirm("Êtes-vous sûr de vouloir supprimer ce blog et tous ses commentaires associés ?");
+}
+</script>
+
+    <h2>Commentaires</h2>
+    {% if comms is empty %}
+        <p>Aucun commentaire pour ce blog.</p>
+    {% else %}
+        <ul>
+            {% for comm in comms %}
+                <li>{{ comm.contenu}}
+                 <td>
+                  
+                    <a href="{{ path('app_comm_edit', {'id': comm.id}) }}">...</a>
+                  
+                </td>
+                </li>
+            {% endfor %}
+            <a href="{{ path('app_comm_new', {'blogId': blog.id}) }}" class="btn btn-primary">Ajouter un commentaire</a>
+
+        </ul>
+    {% endif %}
+{% endblock %}

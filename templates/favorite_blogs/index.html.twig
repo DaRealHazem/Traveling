@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blogs Favoris{% endblock %}
+
+{% block body %}
+    <h1>Blogs Favoris</h1>
+
+    {% if favoriteBlogs is empty %}
+        <p>Aucun blog favori trouvé.</p>
+    {% else %}
+        <ul>
+            {% for blog in favoriteBlogs %}
+               <div class="package-item bg-white mb-2 border rounded p-3"> 
+                        <div class="position-relative">
+                        
+                        <h6 class="d-flex justify-content-between mb-3"> {{ blog.TITRE|upper }}</h6>
+                         </div>
+                           <div class="border-top mt-4 pt-4">
+                            <img src="{{ asset('uploads/images/' ~ blog.imageb) }}" alt="teswira" />
+                            
+                        <div class="p-4">
+                           
+                                 <div class="d-flex justify-content-between">
+                                    {% set contentLines = blog.CONTENT|split("\n") %}
+                                    {% set slicedContent = contentLines|slice(0, 2)|join("\n") %}
+                                    {{ slicedContent }}
+                                </div>
+                            </div>
+                           <div class="border-top mt-4 pt-4">
+    <small class="font-weight-bold mb-n1">{{ blog.date|date('d-m-y ') }}</small>
+    <a href="{{ path('blog_details', {'id': blog.id}) }}" class="btn btn-primary mr-2">voir plus de Détails</a>
+   </div> {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

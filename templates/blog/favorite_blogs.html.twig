@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blogs Favoris{% endblock %}
+
+{% block body %}
+    <h1>Blogs Favoris</h1>
+
+    {% if favoriteBlogs is empty %}
+        <p>Aucun blog favori trouvé.</p>
+    {% else %}
+        <ul>
+            {% for blog in favoriteBlogs %}
+                <li>{{ blog.titre }}</li>
+                <!-- Affichez d'autres détails du blog si nécessaire -->
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

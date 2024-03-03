@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\BlogRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Mime\Message;
 
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
@@ -36,6 +37,9 @@ class Blog
 
     #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Comm::class)]
     private Collection $comms;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $favoris = false;
 
     public function __construct()
     {
@@ -105,6 +109,18 @@ class Blog
     public function getComms(): Collection
     {
         return $this->comms;
+    }
+  
+
+    public function isFavoris(): bool
+    {
+        return $this->favoris;
+    }
+
+    public function setFavoris(bool $favoris): self
+    {
+        $this->favoris = $favoris;
+        return $this;
     }
 
    #  public function addComment(Comments $comment): static

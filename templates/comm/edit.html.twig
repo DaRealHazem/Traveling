@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Comm{% endblock %}
+
+{% block body %}
+    <h1>Edit Comm</h1>
+
+    {{ include('comm/_form.html.twig', {'button_label': 'Update'}) }}
+
+   
+
+    {{ include('comm/_delete_form.html.twig') }}
+{% endblock %}
