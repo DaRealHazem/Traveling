@@ -32,8 +32,8 @@ function confirmDelete() {
                 </td>
                 </li>
             {% endfor %}
-            <a href="{{ path('app_comm_new', {'blogId': blog.id}) }}" class="btn btn-primary">Ajouter un commentaire</a>
 
         </ul>
     {% endif %}
+    <a href="{{ path('app_comm_new', {'blogId': blog.id}) }}" class="btn btn-primary">Ajouter un commentaire</a>
 {% endblock %}

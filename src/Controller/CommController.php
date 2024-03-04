@@ -17,7 +17,7 @@ use App\Service\CommentFilterService;
 
 class CommController extends AbstractController
 {
-    #[Route('/', name: 'app_comm_index', methods: ['GET'])]
+    #[Route('app_comm_index', name: 'app_comm_index', methods: ['GET'])]
     public function index(CommRepository $commRepository): Response
     {
         return $this->render('comm/index.html.twig', [
@@ -36,7 +36,8 @@ class CommController extends AbstractController
             $entityManager->persist($comm);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_comm_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('alist-blog', [], Response::HTTP_SEE_OTHER);
+       
         }
 
         return $this->renderForm('comm/new.html.twig', [
@@ -62,7 +63,7 @@ class CommController extends AbstractController
         if ($commForm->isSubmitted() && $commForm->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_comm_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('alist-blog', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('comm/edit.html.twig', [

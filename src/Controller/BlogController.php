@@ -193,7 +193,7 @@ if ($sort) {
 
 $result = $blogs->getQuery()->getResult();
 
-return $this->render('blog/aff.html.twig', [
+return $this->render('blog/list.html.twig', [
     'blogs' => $result,
 ]);
 
